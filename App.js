@@ -3,16 +3,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Home from './Home'
-import Search from './Search';
-import ReadingList from './ReadingList';
+import SearchScreen from './SearchScreen';
+import ReadingListScreen from './ReadingListScreen';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, push, ref, onValue } from 'firebase/database';
-
+import HomeScreen from './HomeScreen';
 
 // Firebase instal komento tehty
 
-
+// Creating TabNavigator
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -35,9 +34,9 @@ export default function App() {
           },
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="ReadingList" component={ReadingList} />
+        <Tab.Screen name="Home" component={HomeScreen} /> 
+        <Tab.Screen name="Search" component={SearchScreen} /> 
+        <Tab.Screen name="ReadingList" component={ReadingListScreen} /> 
       </Tab.Navigator>
     </NavigationContainer>
   );
