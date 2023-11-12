@@ -40,22 +40,34 @@ export default function SearchScreen() {
 
     // HOX!!! KOKEILE SMALL THUMBNAIL VAIHTOEHTOA!!
 
+
+
+    const getPublishedYear = (fullDate) => {
+        if (fullDate) {
+          const year = new Date(fullDate).getFullYear();
+          return year;
+        }
+        return 'Not available';
+      };
+
+
     // Rendering books for flatlist
     const renderItem = ({ item }) => (
+        
         <ListItem bottomDivider>
             <ListItem.Content>
                 <View style={styles.row}>
                     <Image
                         style={{ width: 100, height: 150, flex: 1 }}
                         source={{
-                            uri: `${item.volumeInfo.imageLinks.thumbnail}`,
+                            uri: item.volumeInfo.imageLinks?.thumbnail || './pictures/placeholder.png',
                         }}
                     />
                     <View style={styles.info}>
-                        <ListItem.Title>{item.volumeInfo.title}</ListItem.Title>
-                        <ListItem.Subtitle>Author/s: {item.volumeInfo.authors}</ListItem.Subtitle>
-                        <ListItem.Subtitle>Published year: {item.volumeInfo.publishedDate}</ListItem.Subtitle>
-                        <ListItem.Subtitle>Pages: {item.volumeInfo.pageCount}</ListItem.Subtitle>
+                        <ListItem.Title>{item.volumeInfo.title || 'Not available'}</ListItem.Title>
+                        <ListItem.Subtitle>Author/s: {item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Author not available'}</ListItem.Subtitle>
+                        <ListItem.Subtitle>Published year: {getPublishedYear(item.volumeInfo.publishedDate)}</ListItem.Subtitle>
+                        <ListItem.Subtitle>Pages: {item.volumeInfo.pageCount || 'Not available'}</ListItem.Subtitle>
                     </View>
                 </View>
             </ListItem.Content>
