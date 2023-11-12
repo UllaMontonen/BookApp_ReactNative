@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Keyboard, Alert, Text, FlatList, Image } from 'react-native';
+import { StyleSheet, View, Keyboard, Alert, FlatList, Image } from 'react-native';
 import { Input, Button, Icon, ListItem } from '@rneui/themed';
-
+import { useNavigation } from '@react-navigation/native';
+import ReadMoreScreen from './ReadMoreScreen';
 
 export default function SearchScreen() {
 
+    
     // searched books
     const [keyword, setKeyword] = useState('');
     // Results Google Books API returns
     const [results, setResults] = useState([]);
+    // Navigation to Read more screen
+    const navigation = useNavigation();
 
     // fetching the searched books usinf Google Books API
     const fetchBook = async () => {
@@ -26,34 +30,18 @@ export default function SearchScreen() {
         Keyboard.dismiss();
     };
 
-
-    // Kuva = imageLinks.smallThumbnail
-    // "imageLinks": {
-    //    "smallThumbnail": "http://books.google.com/books/content?id=ac6OEAAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
-    //    "thumbnail": "http://books.google.com/books/content?id=ac6OEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-    //  },
-
-
-
-    // <ListItem.Subtitle>{item.volumeInfo.description}</ListItem.Subtitle>
-
-
-    // HOX!!! KOKEILE SMALL THUMBNAIL VAIHTOEHTOA!!
-
-
-
+    // Showing only the year, format not yyy-mm-dd
     const getPublishedYear = (fullDate) => {
         if (fullDate) {
-          const year = new Date(fullDate).getFullYear();
-          return year;
+            const year = new Date(fullDate).getFullYear();
+            return year;
         }
         return 'Not available';
-      };
+    };
 
 
-    // Rendering books for flatlist
+    // Rendering books for flatlist, also handling errors here
     const renderItem = ({ item }) => (
-        
         <ListItem bottomDivider>
             <ListItem.Content>
                 <View style={styles.row}>
@@ -68,11 +56,20 @@ export default function SearchScreen() {
                         <ListItem.Subtitle>Author/s: {item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Author not available'}</ListItem.Subtitle>
                         <ListItem.Subtitle>Published year: {getPublishedYear(item.volumeInfo.publishedDate)}</ListItem.Subtitle>
                         <ListItem.Subtitle>Pages: {item.volumeInfo.pageCount || 'Not available'}</ListItem.Subtitle>
+                        <Button style={styles.readmore}
+                            title="Read more"
+                            onPress={() => handleReadMore(item)}
+                        />
                     </View>
                 </View>
             </ListItem.Content>
         </ListItem>
     );
+
+    const handleReadMore = (selectedBook) => {
+        // Navigate to the ReadMoreScreen and pass the selected book as a parameter
+        navigation.navigate('ReadMore', { selectedBook });
+      };
 
     return (
         <View style={styles.container}>
@@ -117,5 +114,9 @@ const styles = StyleSheet.create({
         flex: 2,
         paddingLeft: 15,
         justifyContent: 'center',
+    },
+    readmore: {
+        width: 140,
+        marginTop: 10,
     }
 });
