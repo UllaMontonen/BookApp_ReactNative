@@ -6,7 +6,7 @@ import ReadMoreScreen from './ReadMoreScreen';
 
 export default function SearchScreen() {
 
-    
+
     // searched books
     const [keyword, setKeyword] = useState('');
     // Results Google Books API returns
@@ -46,10 +46,11 @@ export default function SearchScreen() {
             <ListItem.Content>
                 <View style={styles.row}>
                     <Image
-                        style={{ width: 100, height: 150, flex: 1 }}
+                        style={{ width: 150, height: 200, marginBottom: 15 }}
                         source={{
-                            uri: item.volumeInfo.imageLinks?.thumbnail || './pictures/placeholder.png',
+                            uri: item.volumeInfo.imageLinks?.thumbnail,
                         }}
+                        defaultSource={require('./pictures/placeholder.png')}
                     />
                     <View style={styles.info}>
                         <ListItem.Title>{item.volumeInfo.title || 'Not available'}</ListItem.Title>
@@ -69,7 +70,7 @@ export default function SearchScreen() {
     const handleReadMore = (selectedBook) => {
         // Navigate to the ReadMoreScreen and pass the selected book as a parameter
         navigation.navigate('ReadMore', { selectedBook });
-      };
+    };
 
     return (
         <View style={styles.container}>

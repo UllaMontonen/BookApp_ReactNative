@@ -44,8 +44,9 @@ export default function ReadMoreScreen() {
                 <Image
                     style={{ width: 150, height: 200, marginBottom: 15 }}
                     source={{
-                        uri: selectedBook.volumeInfo.imageLinks?.thumbnail || './pictures/placeholder.png',
+                        uri: selectedBook.volumeInfo.imageLinks?.thumbnail,
                     }}
+                    defaultSource={require('./pictures/placeholder.png')}
                 />
                 <View style={styles.text}>
                     <Text style={{ fontSize: 15 }}>Author/s: {selectedBook.volumeInfo.authors?.join(', ') || 'Not available'}</Text>
