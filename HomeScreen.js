@@ -1,33 +1,33 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from 'react-native';
-import { Button } from '@rneui/themed';
+import { StyleSheet, View, Text, Image, TouchableOpacity, } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 
 
 export default function HomeScreen({ navigation }) {
     return (
-        
 
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Welcome to the ReadBook App</Text> 
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Welcome to the ReadBook App</Text>
             </View>
             <Image
                 style={styles.imgae}
                 source={require('./pictures/owl.webp')} /** Picture of the app */
-                />
+            />
             <View style={styles.button}>
-                <Button
-                    title="Find Books"
+                <TouchableOpacity
                     onPress={() => navigation.navigate('Search')} /** Navigating to SearchScreen.js */
-                />
+                >
+                    <Text style={styles.buttonText}>Find books</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.button}>
-                <Button
-                    title="My Reading List"
+                <TouchableOpacity
                     onPress={() => navigation.navigate('ReadingList')} /** Navigating to ReadingListScreen.js */
-                />
+                >
+                    <Text style={styles.buttonText}>My Reading List</Text>
+                </TouchableOpacity>
             </View>
             <StatusBar style='auto' />
         </View>
@@ -35,6 +35,7 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    // Whole page
     container: {
         marginTop: 10,
         alignItems: 'center',
@@ -46,13 +47,26 @@ const styles = StyleSheet.create({
     },
     // Button style
     button: {
-        marginBottom: 10,
-        width: 270, 
+        marginBottom: 15,
+        width: "70%",
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#6f1d1b",
+
     },
+    // text in the button
+    buttonText: {
+        color: "white",
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
+
     // Image style
     imgae: {
-        width: 270, 
+        width: "70%",
         height: 260,
-        marginBottom: 40
+        marginBottom: 40,
     }
 });
