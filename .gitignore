@@ -36,3 +36,6 @@ yarn-error.*
 
 # ignore dotenv configuration file
 .env
+
+# Firebase information
+app.config.js

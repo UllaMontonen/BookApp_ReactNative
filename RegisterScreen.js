@@ -8,6 +8,24 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+
+  auth()
+  .createUserWithEmailAndPassword('email', 'SuperSecretPassword!')
+  .then(() => {
+    console.log('User account created & signed in!');
+  })
+  .catch(error => {
+    if (error.code === 'auth/email-already-in-use') {
+      console.log('That email address is already in use!');
+    }
+
+    if (error.code === 'auth/invalid-email') {
+      console.log('That email address is invalid!');
+    }
+
+    console.error(error);
+  });
+
   const handleRegistration = async () => {
     try {
         const userCredential = await auth().createUserWithEmailAndPassword(email, password);
