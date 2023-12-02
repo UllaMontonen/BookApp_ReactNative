@@ -13,6 +13,9 @@ export default function SearchScreen() {
     const [results, setResults] = useState([]);
     // Navigation to Read more screen
     const navigation = useNavigation();
+    // Search Book button pressed or not
+    const [searchPressed, setSearchPressed] = useState(false);
+
 
     // fetching the searched books usinf Google Books API
     const fetchBook = async () => {
@@ -22,7 +25,8 @@ export default function SearchScreen() {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            setResults(data.items);
+            setResults(data.items || []);
+            setSearchPressed(true);
         } catch (error) {
             Alert.alert('Error', error.message);
         }
@@ -58,7 +62,7 @@ export default function SearchScreen() {
                         <ListItem.Subtitle>Published year: {getPublishedYear(item.volumeInfo.publishedDate)}</ListItem.Subtitle>
                         <ListItem.Subtitle>Pages: {item.volumeInfo.pageCount || 'Not available'}</ListItem.Subtitle>
                         <View style={styles.readMorebutton}>
-                            <TouchableOpacity 
+                            <TouchableOpacity
                                 onPress={() => handleReadMore(item)}>
                                 <Text style={styles.readMoreText}>Read more</Text>
                             </TouchableOpacity>
@@ -83,25 +87,28 @@ export default function SearchScreen() {
                     placeholder='Write book name here'
                     placeholderTextColor="#6f1d1b"
                     onChangeText={keyword => setKeyword(keyword)}
-                value={keyword} />
+                    value={keyword} />
             </View>
             <View style={styles.button}>
                 <TouchableOpacity
                     onPress={fetchBook}    >
                     <Text style={styles.buttonText}>Search book</Text>
                 </TouchableOpacity>
-
-
             </View>
-            <FlatList
-                data={results}
-                style={styles.list}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItem}
-            />
+            {(searchPressed && results.length === 0 && keyword !== '') ? (
+                <Text style={styles.noResultsText}>Could not find any results.</Text>
+            ) : (
+                <FlatList
+                    data={results}
+                    style={styles.list}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={renderItem}
+                />
+            )}
         </View>
-    )
+    );
 }
+
 
 const styles = StyleSheet.create({
     // Container style
@@ -134,7 +141,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
     },
-
     // info text about the book, title etc.
     info: {
         flex: 2,
@@ -162,29 +168,35 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
     },
-        // Search input
-        inputView: {
-            borderColor: "#6f1d1b", 
-            borderWidth: 1,
-            borderRadius: 5,
-            width: "80%",
-            height: 50,
-            marginBottom: 15,
-            alignItems: "center",
-            height: 40,
-            fontSize: 18,
-        },
-        // text input
-        TextInput: {
-            height: 40,
-            fontSize: 18,
-            color: "#6f1d1b",
-        },
-
-        header: {
-            fontSize: 20,
-            fontWeight: 'bold',
-            marginBottom: 20,
-
-        }
+    // Search input
+    inputView: {
+        borderColor: "#6f1d1b",
+        borderWidth: 1,
+        borderRadius: 5,
+        width: "80%",
+        height: 50,
+        marginBottom: 15,
+        alignItems: "center",
+        height: 40,
+        fontSize: 18,
+    },
+    // text input
+    TextInput: {
+        height: 40,
+        fontSize: 18,
+        color: "#6f1d1b",
+    },
+    // Header text (Search for books)
+    header: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    // Could not find any results text
+    noResultsText: {
+        fontSize: 18,
+        color: 'red',
+        textAlign: 'center',
+        marginTop: 20,
+    },
 });
