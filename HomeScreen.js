@@ -15,25 +15,25 @@ export default function HomeScreen({ navigation }) {
                 style={styles.imgae}
                 source={require('./pictures/owl.webp')} /** Picture of the app */
             />
-            
-                <TouchableOpacity
-                style={styles.button}
-                    onPress={() => navigation.navigate('Search')} /** Navigating to SearchScreen.js */
-                >
-                                    <Ionicons name="search" size={24} color="white" />
 
-                    <Text style={styles.buttonText}>Find books</Text>
-                </TouchableOpacity>
-            
-            
-                <TouchableOpacity
+            <TouchableOpacity
                 style={styles.button}
-                    onPress={() => navigation.navigate('ReadingList')} /** Navigating to ReadingListScreen.js */
-                >
-                     <Ionicons name="md-book" size={24} color="white" />
-                    <Text style={styles.buttonText}>My Reading List</Text>
-                </TouchableOpacity>
-            
+                onPress={() => navigation.navigate('Search')} /** Navigating to SearchScreen.js */
+            >
+                <Ionicons name="search" size={24} color="white" />
+
+                <Text style={styles.buttonText}>Find books</Text>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('ReadingList')} /** Navigating to ReadingListScreen.js */
+            >
+                <Ionicons name="md-book" size={24} color="white" />
+                <Text style={styles.buttonText}>My Reading List</Text>
+            </TouchableOpacity>
+
         </View>
     )
 }
