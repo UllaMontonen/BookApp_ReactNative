@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 
@@ -15,20 +15,25 @@ export default function HomeScreen({ navigation }) {
                 style={styles.imgae}
                 source={require('./pictures/owl.webp')} /** Picture of the app */
             />
-            <View style={styles.button}>
+            
                 <TouchableOpacity
+                style={styles.button}
                     onPress={() => navigation.navigate('Search')} /** Navigating to SearchScreen.js */
                 >
+                                    <Ionicons name="search" size={24} color="white" />
+
                     <Text style={styles.buttonText}>Find books</Text>
                 </TouchableOpacity>
-            </View>
-            <View style={styles.button}>
+            
+            
                 <TouchableOpacity
+                style={styles.button}
                     onPress={() => navigation.navigate('ReadingList')} /** Navigating to ReadingListScreen.js */
                 >
+                     <Ionicons name="md-book" size={24} color="white" />
                     <Text style={styles.buttonText}>My Reading List</Text>
                 </TouchableOpacity>
-            </View>
+            
         </View>
     )
 }
@@ -55,6 +60,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#6f1d1b",
+        flexDirection: 'row',
 
     },
     // text in the button
@@ -62,6 +68,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: 'bold',
         fontSize: 18,
+        marginLeft: 10,
     },
 
     // Image style

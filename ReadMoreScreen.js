@@ -74,10 +74,16 @@ export default function ReadMoreScreen( {navigation}) {
                     </Text>
                     {selectedBook.volumeInfo.description?.length > 300 && (
                         <TouchableOpacity onPress={toggleDescription}>
-                            <Text style={{ color: '#6f1d1b', marginTop: 5, fontWeight: 'bold' }}>
+                            <Text style={styles.showMore}>
                                 {showFullDescription ? 'Show Less' : 'Show More'}</Text>
                         </TouchableOpacity>
                     )}
+                    <View style={styles.searchbutton}>
+                            <TouchableOpacity 
+                                 >
+                                <Text style={styles.searchText}>Add to readinglist</Text>
+                            </TouchableOpacity>
+                        </View>
                      <View style={styles.searchbutton}>
                             <TouchableOpacity 
                                  onPress={() => navigation.navigate('SearchView')}>
@@ -111,7 +117,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
     },
     header: {
-        marginBottom: 20,
+        marginBottom: 15,
         marginTop: 10,
         paddingLeft: 10,
         paddingRight: 10,
@@ -131,7 +137,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#6f1d1b",
-        marginTop: 30,
+        marginTop: 5,
         marginLeft: 50,
         marginRight: 50,
     },
@@ -140,7 +146,11 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 16,
     },
+    // aligning items to center
     center: {
         alignItems: "center",
+    },
+    showMore: {
+        color: '#6f1d1b', marginTop: 5, marginBottom: 10, fontWeight: 'bold'
     }
 });

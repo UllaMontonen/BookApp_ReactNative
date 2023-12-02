@@ -3,6 +3,7 @@ import { StyleSheet, Icon, Text, View, Keyboard, Alert, FlatList, Image, Touchab
 import { ListItem } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import ReadMoreScreen from './ReadMoreScreen';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function SearchScreen() {
 
@@ -89,12 +90,11 @@ export default function SearchScreen() {
                     onChangeText={keyword => setKeyword(keyword)}
                     value={keyword} />
             </View>
-            <View style={styles.button}>
-                <TouchableOpacity
-                    onPress={fetchBook}    >
+                <TouchableOpacity style={styles.button} onPress={fetchBook}>
+                <Ionicons name="search" size={24} color="white" />
                     <Text style={styles.buttonText}>Search book</Text>
                 </TouchableOpacity>
-            </View>
+                
             {(searchPressed && results.length === 0 && keyword !== '') ? (
                 <Text style={styles.noResultsText}>Could not find any results.</Text>
             ) : (
@@ -155,18 +155,21 @@ const styles = StyleSheet.create({
     // Search button style
     button: {
         marginBottom: 15,
-        width: "50%",
+        width: "60%",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#6f1d1b",
+        flexDirection: 'row', 
+        alignItems: 'center', 
     },
     // text in the button
     buttonText: {
         color: "white",
         fontWeight: 'bold',
         fontSize: 18,
+        marginLeft: 10,
     },
     // Search input
     inputView: {
