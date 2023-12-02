@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Keyboard, Alert, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Input, Button, Icon, ListItem } from '@rneui/themed';
 import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 
-export default function ReadMoreScreen() {
+export default function ReadMoreScreen( {navigation}) {
 
     const route = useRoute();
     const { selectedBook } = route.params;
@@ -36,8 +37,9 @@ export default function ReadMoreScreen() {
 
 
     return (
-        <ScrollView>
-            <View style={styles.container}>
+        <View style={styles.container}>
+       <ScrollView>
+        <View style={styles.center}>
                 <View style={styles.header}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{selectedBook.volumeInfo.title}</Text>
                 </View>
@@ -67,18 +69,25 @@ export default function ReadMoreScreen() {
                     <Text style={{ fontSize: 15 }}>
                         {descriptionToShow || 'Not available'}
                         {selectedBook.volumeInfo.description?.length > 300 && !showFullDescription && (
-                            <Text style={{ color: 'blue' }}>...</Text>
+                            <Text style={{ color: '#6f1d1b', fontWeight: 'bold' }}>...</Text>
                         )}
                     </Text>
                     {selectedBook.volumeInfo.description?.length > 300 && (
                         <TouchableOpacity onPress={toggleDescription}>
-                            <Text style={{ color: 'blue', marginTop: 5 }}>
+                            <Text style={{ color: '#6f1d1b', marginTop: 5, fontWeight: 'bold' }}>
                                 {showFullDescription ? 'Show Less' : 'Show More'}</Text>
                         </TouchableOpacity>
                     )}
+                     <View style={styles.searchbutton}>
+                            <TouchableOpacity 
+                                 onPress={() => navigation.navigate('SearchView')}>
+                                <Text style={styles.searchText}>Back to search</Text>
+                            </TouchableOpacity>
+                        </View>
                 </View>
-            </View>
+                </View>
         </ScrollView>
+        </View>
     );
 }
 
@@ -86,39 +95,52 @@ export default function ReadMoreScreen() {
 const styles = StyleSheet.create({
     // Container style
     container: {
-        marginTop: 10,
         alignItems: 'center',
-    },
-    // Button style
-    button: {
-        marginBottom: 10,
-        width: 200,
+        flex: 1,
+        paddingTop: 10,
+        backgroundColor: "white",
     },
     // Flatlist style
     list: {
         width: '100%',
-        marginBottom: 100,
     },
     row: {
         flexDirection: 'row',
     },
     info: {
-        flex: 2,
         paddingLeft: 15,
-        justifyContent: 'center',
-    },
-    readmore: {
-        width: 140,
-        marginTop: 10,
     },
     header: {
         marginBottom: 20,
         marginTop: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     text: {
         marginBottom: 5,
     },
     description: {
         padding: 20,
+    },
+    // Back to search button
+    searchbutton: {
+        paddingLeft: 30,
+        paddingRight: 30,
+        borderRadius: 25,
+        height: 35,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#6f1d1b",
+        marginTop: 30,
+        marginLeft: 50,
+        marginRight: 50,
+    },
+    // Back to search text
+    searchText: {
+        color: "white",
+        fontSize: 16,
+    },
+    center: {
+        alignItems: "center",
     }
 });

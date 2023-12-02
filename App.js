@@ -6,12 +6,17 @@ import SearchScreen from './SearchScreen';
 import ReadingListScreen from './ReadingListScreen';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, push, ref, onValue } from 'firebase/database';
+
+// Import Screens
 import HomeScreen from './HomeScreen';
 import ReadMoreScreen from './ReadMoreScreen';
 import LoginScreen from './LoginScreen';
+import RegisterScreen from './RegisterScreen';
 
 
 // Firebase instal komento tehty
+//import { initializeApp } from 'firebase/app';
+//import { getDatabase, push, ref, onValue } from 'firebase/database';
 
 // Creating Tab Navigator for the whole app
 const Tab = createBottomTabNavigator();
@@ -32,6 +37,7 @@ function SearchNavigator() {
     </Stack.Navigator>
   )
 }
+
 
 export default function App() {
   return (
@@ -54,8 +60,13 @@ export default function App() {
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#6F1D1B',
-          tabBarInactiveTintColor: '#99582A',
+          tabBarStyle: { backgroundColor: '#E28500' },
+          tabBarActiveTintColor: '#432818',
+          tabBarInactiveTintColor: 'white',
+          headerStyle: { backgroundColor: '#E28500'},
+          headerTintColor: 'white',
+          sceneContainerStyle: {backgroundColor: 'white'},
+          
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
@@ -63,7 +74,6 @@ export default function App() {
         <Tab.Screen name="ReadingList" component={ReadingListScreen} />
         <Tab.Screen name="LogIn" component={LoginScreen} />
       </Tab.Navigator>
-
     </NavigationContainer>
   );
 }

@@ -29,7 +29,6 @@ export default function HomeScreen({ navigation }) {
                     <Text style={styles.buttonText}>My Reading List</Text>
                 </TouchableOpacity>
             </View>
-            <StatusBar style='auto' />
         </View>
     )
 }
@@ -37,8 +36,10 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     // Whole page
     container: {
-        marginTop: 10,
+        flex: 1,
+        paddingTop: 10,
         alignItems: 'center',
+        backgroundColor: "white",
     },
     // Header style
     header: {

@@ -106,8 +106,10 @@ export default function SearchScreen() {
 const styles = StyleSheet.create({
     // Container style
     container: {
-        marginTop: 10,
         alignItems: 'center',
+        flex: 1,
+        paddingTop: 10,
+        backgroundColor: "white",
     },
     // Read more button style
     readMorebutton: {
@@ -127,7 +129,6 @@ const styles = StyleSheet.create({
     // Flatlist style
     list: {
         width: '100%',
-        marginBottom: 100,
     },
     // list item direction, book and info next to each other
     row: {
