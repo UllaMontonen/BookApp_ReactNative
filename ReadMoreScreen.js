@@ -3,14 +3,18 @@ import { StyleSheet, View, Keyboard, Alert, Text, ScrollView, Image, TouchableOp
 import { Input, Button, Icon, ListItem } from '@rneui/themed';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+import { push, ref, onValue, remove } from 'firebase/database';
+import database from './Firebase';
 
 
-export default function ReadMoreScreen( {navigation}) {
+export default function ReadMoreScreen({ navigation }) {
 
     const route = useRoute();
     const { selectedBook } = route.params;
     // Show more function for the description part
     const [showFullDescription, setShowFullDescription] = useState(false);
+    const [items, setItems] = useState([]);
+
 
     // Showing only the year for the PublishedYear call
     // Now returns yyy-mm-dd
@@ -36,63 +40,81 @@ export default function ReadMoreScreen( {navigation}) {
         : selectedBook.volumeInfo.description?.slice(0, 300);
 
 
+    useEffect(() => {
+        const itemsRef = ref(database, '/items');
+        onValue(itemsRef, snapshot => {
+            const data = snapshot.val();
+            const products = data ? Object.keys(data).map(key => ({ key, ...data[key] })) : [];
+            setItems(products);
+            console.log(products.length, 'items read');
+        })
+    }, []);
+
+    // saving an item to shopping list
+    const saveItem = () => {
+        push(ref(database, '/items'),
+            { 'title': selectedBook.volumeInfo.title });
+        console.log(items)
+    }
+
     return (
         <View style={styles.container}>
-       <ScrollView>
-        <View style={styles.center}>
-                <View style={styles.header}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{selectedBook.volumeInfo.title}</Text>
-                </View>
-                <Image
-                    style={{ width: 150, height: 200, marginBottom: 15 }}
-                    source={{
-                        uri: selectedBook.volumeInfo.imageLinks?.thumbnail,
-                    }}
-                    defaultSource={require('./pictures/placeholder.png')}
-                />
-                <View style={styles.text}>
-                    <Text style={{ fontSize: 15 }}>Author/s: {selectedBook.volumeInfo.authors?.join(', ') || 'Not available'}</Text>
-                </View>
-                <View style={styles.text}>
-                    <Text style={{ fontSize: 15 }}>Publisher: {selectedBook.volumeInfo.publisher || 'Not available'}</Text>
-                </View>
-                <View style={styles.text}>
-                    <Text style={{ fontSize: 15 }}>Published year: {getPublishedYear(selectedBook.volumeInfo.publishedDate)}</Text>
-                </View>
-                <View style={styles.text}>
-                    <Text style={{ fontSize: 15 }}>Language: {selectedBook.volumeInfo.language || 'Not available'}</Text>
-                </View>
-                <View style={styles.text}>
-                    <Text style={{ fontSize: 15 }}>Pages: {selectedBook.volumeInfo.pageCount || 'Not available'}</Text>
-                </View>
-                <View style={styles.description}>
-                    <Text style={{ fontSize: 15 }}>
-                        {descriptionToShow || 'Not available'}
-                        {selectedBook.volumeInfo.description?.length > 300 && !showFullDescription && (
-                            <Text style={{ color: '#6f1d1b', fontWeight: 'bold' }}>...</Text>
+            <ScrollView>
+                <View style={styles.center}>
+                    <View style={styles.header}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{selectedBook.volumeInfo.title}</Text>
+                    </View>
+                    <Image
+                        style={{ width: 150, height: 200, marginBottom: 15 }}
+                        source={{
+                            uri: selectedBook.volumeInfo.imageLinks?.thumbnail,
+                        }}
+                        defaultSource={require('./pictures/placeholder.png')}
+                    />
+                    <View style={styles.text}>
+                        <Text style={{ fontSize: 15 }}>Author/s: {selectedBook.volumeInfo.authors?.join(', ') || 'Not available'}</Text>
+                    </View>
+                    <View style={styles.text}>
+                        <Text style={{ fontSize: 15 }}>Publisher: {selectedBook.volumeInfo.publisher || 'Not available'}</Text>
+                    </View>
+                    <View style={styles.text}>
+                        <Text style={{ fontSize: 15 }}>Published year: {getPublishedYear(selectedBook.volumeInfo.publishedDate)}</Text>
+                    </View>
+                    <View style={styles.text}>
+                        <Text style={{ fontSize: 15 }}>Language: {selectedBook.volumeInfo.language || 'Not available'}</Text>
+                    </View>
+                    <View style={styles.text}>
+                        <Text style={{ fontSize: 15 }}>Pages: {selectedBook.volumeInfo.pageCount || 'Not available'}</Text>
+                    </View>
+                    <View style={styles.description}>
+                        <Text style={{ fontSize: 15 }}>
+                            {descriptionToShow || 'Not available'}
+                            {selectedBook.volumeInfo.description?.length > 300 && !showFullDescription && (
+                                <Text style={{ color: '#6f1d1b', fontWeight: 'bold' }}>...</Text>
+                            )}
+                        </Text>
+                        {selectedBook.volumeInfo.description?.length > 300 && (
+                            <TouchableOpacity onPress={toggleDescription}>
+                                <Text style={styles.showMore}>
+                                    {showFullDescription ? 'Show Less' : 'Show More'}</Text>
+                            </TouchableOpacity>
                         )}
-                    </Text>
-                    {selectedBook.volumeInfo.description?.length > 300 && (
-                        <TouchableOpacity onPress={toggleDescription}>
-                            <Text style={styles.showMore}>
-                                {showFullDescription ? 'Show Less' : 'Show More'}</Text>
-                        </TouchableOpacity>
-                    )}
-                    <View style={styles.searchbutton}>
-                            <TouchableOpacity 
-                                 >
+                        <View style={styles.searchbutton}>
+                            <TouchableOpacity
+                                onPress={saveItem}
+                            >
                                 <Text style={styles.searchText}>Add to readinglist</Text>
                             </TouchableOpacity>
                         </View>
-                     <View style={styles.searchbutton}>
-                            <TouchableOpacity 
-                                 onPress={() => navigation.navigate('SearchView')}>
+                        <View style={styles.searchbutton}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('SearchView')}>
                                 <Text style={styles.searchText}>Back to search</Text>
                             </TouchableOpacity>
                         </View>
+                    </View>
                 </View>
-                </View>
-        </ScrollView>
+            </ScrollView>
         </View>
     );
 }

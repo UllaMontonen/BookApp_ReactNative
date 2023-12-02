@@ -3,12 +3,9 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, } from "rea
 
 
 
-
-
-
 export default function LoginScreen() {
 
-    
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 

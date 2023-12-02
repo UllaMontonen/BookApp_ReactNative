@@ -90,11 +90,11 @@ export default function SearchScreen() {
                     onChangeText={keyword => setKeyword(keyword)}
                     value={keyword} />
             </View>
-                <TouchableOpacity style={styles.button} onPress={fetchBook}>
+            <TouchableOpacity style={styles.button} onPress={fetchBook}>
                 <Ionicons name="search" size={24} color="white" />
-                    <Text style={styles.buttonText}>Search book</Text>
-                </TouchableOpacity>
-                
+                <Text style={styles.buttonText}>Search book</Text>
+            </TouchableOpacity>
+
             {(searchPressed && results.length === 0 && keyword !== '') ? (
                 <Text style={styles.noResultsText}>Could not find any results.</Text>
             ) : (
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#6f1d1b",
-        flexDirection: 'row', 
-        alignItems: 'center', 
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     // text in the button
     buttonText: {

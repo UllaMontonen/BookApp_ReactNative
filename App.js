@@ -14,10 +14,6 @@ import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 
 
-// Firebase instal komento tehty
-//import { initializeApp } from 'firebase/app';
-//import { getDatabase, push, ref, onValue } from 'firebase/database';
-
 // Creating Tab Navigator for the whole app
 const Tab = createBottomTabNavigator();
 
@@ -25,8 +21,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 
-// jos haluaa headerin piiloon: 
-// <Stack.Navigator screenOptions={{ headerShown: false }}>
+// Navigation between Seacrh view and ReadMore voew
 function SearchNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -63,10 +58,10 @@ export default function App() {
           tabBarStyle: { backgroundColor: '#E28500' },
           tabBarActiveTintColor: '#432818',
           tabBarInactiveTintColor: 'white',
-          headerStyle: { backgroundColor: '#E28500'},
+          headerStyle: { backgroundColor: '#E28500' },
           headerTintColor: 'white',
-          sceneContainerStyle: {backgroundColor: 'white'},
-          
+          sceneContainerStyle: { backgroundColor: 'white' },
+
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
