@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
+// sign out button need to be done
+
 
 export default function HomeScreen({ navigation }) {
     return (
@@ -32,6 +34,10 @@ export default function HomeScreen({ navigation }) {
             >
                 <Ionicons name="md-book" size={24} color="white" />
                 <Text style={styles.buttonText}>My Reading List</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+                <Text style={styles.signout}>Sign out</Text> 
             </TouchableOpacity>
 
         </View>
@@ -76,5 +82,13 @@ const styles = StyleSheet.create({
         width: "70%",
         height: 260,
         marginBottom: 40,
+    },
+
+    // sign out text button
+    signout: {
+        marginTop: 40,
+        color: "#6f1d1b",
+        fontWeight: 'bold',
+        fontSize: 18,
     }
 });

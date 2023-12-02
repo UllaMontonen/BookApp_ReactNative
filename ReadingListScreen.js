@@ -5,7 +5,7 @@ import { StyleSheet, View, Text } from 'react-native';
 export default function ReadingListScreen() {
     return (
         <View style={styles.container}>
-            <Text>ReadingList</Text>
+            <Text style={styles.header}>This is your reading list</Text>
         </View>
     )
 }
@@ -17,6 +17,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 10,
         backgroundColor: "white",
+    },
+     // Header text (Reading List)
+     header: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
     },
 
 })
