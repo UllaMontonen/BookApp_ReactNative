@@ -2,16 +2,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import SearchScreen from './SearchScreen';
-import ReadingListScreen from './ReadingListScreen';
+import SearchScreen from './screens/SearchScreen';
+import ReadingListScreen from './screens/ReadingListScreen';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, push, ref, onValue } from 'firebase/database';
 
 // Import Screens
-import HomeScreen from './HomeScreen';
-import ReadMoreScreen from './ReadMoreScreen';
-import LoginScreen from './LoginScreen';
-import RegisterScreen from './RegisterScreen';
+import HomeScreen from './screens/HomeScreen';
+import ReadMoreScreen from './screens/ReadMoreScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 
 // Creating Tab Navigator for the whole app

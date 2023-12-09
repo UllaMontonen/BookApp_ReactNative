@@ -4,7 +4,7 @@ import { Input, Button, Icon, ListItem } from '@rneui/themed';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { push, ref, onValue, remove } from 'firebase/database';
-import database from './Firebase';
+import database from '../Firebase';
 
 
 export default function ReadMoreScreen({ navigation }) {
@@ -69,7 +69,7 @@ export default function ReadMoreScreen({ navigation }) {
                         source={{
                             uri: selectedBook.volumeInfo.imageLinks?.thumbnail,
                         }}
-                        defaultSource={require('./pictures/placeholder.png')}
+                        defaultSource={require('../pictures/placeholder.png')}
                     />
                     <View style={styles.text}>
                         <Text style={{ fontSize: 15 }}>Author/s: {selectedBook.volumeInfo.authors?.join(', ') || 'Not available'}</Text>

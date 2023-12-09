@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation }) {
             </View>
             <Image
                 style={styles.imgae}
-                source={require('./pictures/owl.webp')} /** Picture of the app */
+                source={require('../pictures/owl.webp')} /** Picture of the app */
             />
 
             <TouchableOpacity

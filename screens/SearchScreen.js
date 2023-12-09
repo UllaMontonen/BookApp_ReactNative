@@ -55,7 +55,7 @@ export default function SearchScreen() {
                         source={{
                             uri: item.volumeInfo.imageLinks?.thumbnail,
                         }}
-                        defaultSource={require('./pictures/placeholder.png')}
+                        defaultSource={require('../pictures/placeholder.png')}
                     />
                     <View style={styles.info}>
                         <ListItem.Title style={{ fontWeight: 'bold', }}>{item.volumeInfo.title || 'Not available'}</ListItem.Title>
