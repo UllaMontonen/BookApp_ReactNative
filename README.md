@@ -2,7 +2,7 @@
 
 PROJECT STILL IN PROGRESS
 
-Languageused: `ReactNative`
+Language used: `ReactNative`
 
 The project has been implemented as a final project in the Mobile Programming course. The course was completed at Haaga-Helia University of Applied Sciences as part of my degree in Business Information Technology.
 
