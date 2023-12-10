@@ -4,10 +4,10 @@
     "slug": "BookApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/owlicon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/owl.png",
+      "image": "./assets/owlsplashscreen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
