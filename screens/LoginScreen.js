@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, } from "react-native";
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigation } from '@react-navigation/native';
 
+
+// This is the Login screen. The login function utilizes Firebase authentication.
+// After a successful login, the user gains access to the app.
+// Users can also create a new account if they don't have one yet.
 
 
 export default function LoginScreen() {
@@ -8,25 +14,40 @@ export default function LoginScreen() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigation();
 
-    const onPressLogin = () => {
-        // Do something about login operation
+    // Navigation to RegisterScreen
+    const handleRegister = () => {
+        navigation.navigate('Register');
     };
-    const onPressSignUp = () => {
-        // Do something about signup operation
+
+    // Login function
+    const onPressLogin = async () => {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                alert("Sign in successfull: ")
+                console.log("Sign in successfull");
+            })
+            // Error handling
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log("error ", error.code, ", ", error.message);
+            });
     };
-
-
 
     return (
-        <View style={styles.container}>
+
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
             <View style={styles.header}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Login to the ReadBook App</Text>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Login to ReadBook</Text>
             </View>
             <Image
                 style={styles.imgae}
-                source={require('./pictures/owl.webp')} /** Picture of the app */
-            />
+                source={require('../pictures/owl.webp')} />
             <View style={styles.inputView}>
                 <TextInput
                     style={styles.TextInput}
@@ -49,9 +70,9 @@ export default function LoginScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity>
-                <Text onPress={onPressSignUp} style={styles.register}>Register a new account</Text>
+                <Text onPress={handleRegister} style={styles.register}>Create a new account</Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     )
 
 }
@@ -77,13 +98,11 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 18,
     },
-
     // text input (no placeholder)
     TextInput: {
         height: 40,
         color: "white",
         fontSize: 18,
-
     },
     // loging button
     loginBtn: {
@@ -101,17 +120,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
     },
-    // Header style
+    // header style
     header: {
-        marginBottom: 50,
-        marginTop: 30,
+        marginBottom: 30,
+        marginTop: 20,
     },
-    // Image style
+    // image style
     imgae: {
-        width: 270,
-        height: 260,
-        marginBottom: 40
+        width: 100,
+        height: 100,
+        marginBottom: 30
     },
+    // create new account button
     register: {
         marginTop: 20,
         color: "#6f1d1b",

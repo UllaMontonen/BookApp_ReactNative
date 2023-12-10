@@ -1,12 +1,26 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { getAuth, signOut } from "firebase/auth";
 
-
-// sign out button need to be done
-
+// This is the home page of the app. After logging in, users will see this view.
+// Users can navigate from here to the Search screen or to their Reading List screen.
+// Users can also sign out from this view (Firebase authentication).
 
 export default function HomeScreen({ navigation }) {
+
+
+    // Sign out function NEED TP BE DONE !!! ****
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        // Sign-out successful.
+    }).catch((error) => {
+        // An error happened.
+        console.log(error);
+        alert("Sign out failed: " + error.message)
+    });
+
+
     return (
 
         <View style={styles.container}>
@@ -36,8 +50,9 @@ export default function HomeScreen({ navigation }) {
                 <Text style={styles.buttonText}>My Reading List</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity>
-                <Text style={styles.signout}>Sign out</Text> 
+            <TouchableOpacity
+                onPress={auth}>
+                <Text style={styles.signout}>Sign out</Text>
             </TouchableOpacity>
 
         </View>
@@ -45,19 +60,19 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    // Whole page
+    // whole page
     container: {
         flex: 1,
         paddingTop: 10,
         alignItems: 'center',
         backgroundColor: "white",
     },
-    // Header style
+    // header style
     header: {
         marginBottom: 50,
         marginTop: 30,
     },
-    // Button style
+    // button style
     button: {
         marginBottom: 15,
         width: "70%",
@@ -77,7 +92,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
 
-    // Image style
+    // image style
     imgae: {
         width: "70%",
         height: 260,

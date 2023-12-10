@@ -5,10 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 import ReadMoreScreen from './ReadMoreScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+// SearchScreen manages the search function using the Google Books API.
+// After pressing the search button, a fetch is performed, and the results are displayed using flatlist.
+// Users can press the 'Read more' button to navigate to the ReadMoreScreen.
+
+
 export default function SearchScreen() {
 
-
-    // searched books
+    // Searched books
     const [keyword, setKeyword] = useState('');
     // Results Google Books API returns
     const [results, setResults] = useState([]);
@@ -18,7 +22,7 @@ export default function SearchScreen() {
     const [searchPressed, setSearchPressed] = useState(false);
 
 
-    // fetching the searched books usinf Google Books API
+    // fetching the searched books using Google Books API
     const fetchBook = async () => {
         try {
             const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${keyword}`);
@@ -43,7 +47,6 @@ export default function SearchScreen() {
         }
         return 'Not available';
     };
-
 
     // Rendering books for flatlist, also handling errors here
     const renderItem = ({ item }) => (
@@ -111,14 +114,14 @@ export default function SearchScreen() {
 
 
 const styles = StyleSheet.create({
-    // Container style
+    // container style, whole page
     container: {
         alignItems: 'center',
         flex: 1,
         paddingTop: 10,
         backgroundColor: "white",
     },
-    // Read more button style
+    // read more button style
     readMorebutton: {
         width: "70%",
         borderRadius: 25,
@@ -133,7 +136,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 16,
     },
-    // Flatlist style
+    // flatlist style
     list: {
         width: '100%',
     },
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
         width: 140,
         marginTop: 10,
     },
-    // Search button style
+    // search button style
     button: {
         marginBottom: 15,
         width: "60%",
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginLeft: 10,
     },
-    // Search input
+    // search input
     inputView: {
         borderColor: "#6f1d1b",
         borderWidth: 1,
@@ -189,13 +192,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: "#6f1d1b",
     },
-    // Header text (Search for books)
+    // header text (Search for books)
     header: {
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 20,
     },
-    // Could not find any results text
+    // could not find any results text
     noResultsText: {
         fontSize: 18,
         color: 'red',

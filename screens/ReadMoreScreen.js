@@ -6,13 +6,19 @@ import { useNavigation } from '@react-navigation/native';
 import { push, ref, onValue, remove } from 'firebase/database';
 import database from '../Firebase';
 
+// The ReadMore screen opens when the user presses the 'Read More' button on the SearchScreen after the search function has been completed.
+// On the ReadMore screen, the user can press the 'Show More' button to view the rest of the description, and 'Show Less' has the opposite function.
+// Additionally, the user can add the book to the Reading List by pressing the 'Add to readinglist' button, and the book will be saved to the Firebase database.
 
+// Navigation is imported to enable navigation between the ReadMore and Search screens (via SearchStackNavigation).
 export default function ReadMoreScreen({ navigation }) {
 
     const route = useRoute();
+    // Selected book
     const { selectedBook } = route.params;
     // Show more function for the description part
     const [showFullDescription, setShowFullDescription] = useState(false);
+    // Used for saving books to Firebase database
     const [items, setItems] = useState([]);
 
 
@@ -25,6 +31,7 @@ export default function ReadMoreScreen({ navigation }) {
         }
         return 'Not available';
     };
+
     // Show more function
     const toggleDescription = () => {
         setShowFullDescription(!showFullDescription);
@@ -50,11 +57,11 @@ export default function ReadMoreScreen({ navigation }) {
         })
     }, []);
 
-    // saving an item to shopping list
+    // saving an item to reading list
     const saveItem = () => {
         push(ref(database, '/items'),
             { 'title': selectedBook.volumeInfo.title });
-        console.log(items)
+        console.log(selectedBook.volumeInfo.title)
     }
 
     return (
@@ -121,36 +128,33 @@ export default function ReadMoreScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
-    // Container style
+    // container style affects the whole page
     container: {
         alignItems: 'center',
         flex: 1,
         paddingTop: 10,
         backgroundColor: "white",
     },
-    // Flatlist style
+    // flatlist style
     list: {
         width: '100%',
     },
-    row: {
-        flexDirection: 'row',
-    },
-    info: {
-        paddingLeft: 15,
-    },
+    // title text
     header: {
         marginBottom: 15,
         marginTop: 10,
         paddingLeft: 10,
         paddingRight: 10,
     },
+    // all texts, except description and title
     text: {
         marginBottom: 5,
     },
+    // description text
     description: {
         padding: 20,
     },
-    // Back to search button
+    // back to search button
     searchbutton: {
         paddingLeft: 30,
         paddingRight: 30,
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
         marginLeft: 50,
         marginRight: 50,
     },
-    // Back to search text
+    // back to search text
     searchText: {
         color: "white",
         fontSize: 16,
@@ -172,6 +176,7 @@ const styles = StyleSheet.create({
     center: {
         alignItems: "center",
     },
+    // show more button
     showMore: {
         color: '#6f1d1b', marginTop: 5, marginBottom: 10, fontWeight: 'bold'
     }
