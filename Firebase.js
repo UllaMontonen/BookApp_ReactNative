@@ -14,4 +14,7 @@ const firebaseConfig = process.env.EXPO_PUBLIC_FIREBASE_CONFIG || Constants.expo
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const database = getDatabase(app);
+
+export {db, app, auth}
 export default getDatabase(app);

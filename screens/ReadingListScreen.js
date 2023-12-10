@@ -1,6 +1,9 @@
-import React from "react";
-import { StyleSheet, View, Text } from 'react-native';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { ref, onValue, remove } from 'firebase/database';
+import database from '../Firebase';
+
+
 
 // This is the Reading List Screen. Users can view the books they have saved here.
 
@@ -10,7 +13,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function ReadingListScreen() {
 
+    const [books, setBooks] = useState([]);
 
+    {/** T
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -22,8 +27,26 @@ export default function ReadingListScreen() {
             // User is signed out
             // ...
         }
-    });
+    });*/}
 
+    useEffect(() => {
+        const booksRef = ref(database, '/books');
+        onValue(booksRef, snapshot => {
+            const data = snapshot.val();
+            const booklist = data ? Object.keys(data).map(key => ({ key, ...data[key] })) : [];
+            setBooks(booklist);
+            console.log(books.length, 'booklist');
+            console.log("books: ", books);
+        })
+    }, []);
+
+    // deleting an item from reading list
+    const deleteItem = (key) => {
+       console.log('delete book: ', key, books.find(item => item.key === key));
+       setBooks(prevBooks => prevBooks.filter(item => item.key !== key));
+
+        remove (ref(database, 'books/' + key));
+    }
 
 
 
@@ -31,6 +54,15 @@ export default function ReadingListScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>This is your reading list</Text>
+            <FlatList style={styles.list}
+          keyExtractor={item => item.key }
+          renderItem={({item}) => 
+          <View style={styles.list}>
+            <Text>{item.title}</Text>
+            <Text style={styles.delete} onPress={() => deleteItem(item.key)}>  delete</Text>
+          </View>}
+        data={books}
+      />
         </View>
     )
 }
@@ -49,5 +81,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
     },
+    list: {
+        flexDirection: 'row',
+      },
+      delete: {
+        color: "blue",
+      },
 
 })

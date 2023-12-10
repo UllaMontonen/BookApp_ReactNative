@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -21,22 +21,40 @@ export default function LoginScreen() {
         navigation.navigate('Register');
     };
 
+
     // Login function
     const onPressLogin = async () => {
         const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                alert("Sign in successfull: ")
-                console.log("Sign in successfull");
-            })
-            // Error handling
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log("error ", error.code, ", ", error.message);
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            // Signed in 
+            const user = userCredential.user;
+            alert("Login successful");
+            console.log("Login successful");
+
+            // Waiting for the authentication state to be updated
+            const updatedUser = await new Promise((resolve) => {
+                const unsubscribe = onAuthStateChanged(auth, (user) => {
+                    console.log("onAuthStateChanged:", user);
+                    unsubscribe();
+                    resolve(user);
+                });
             });
+            // If updated, then navigating to HomeScreen. This does not work
+            if (updatedUser) {
+                //navigation.navigate('Home'); 
+            } else {
+                console.error("User is still null after login");
+            }
+
+            // Navigate to the TabNavigator after successful login
+            navigation.navigate('Register');
+        } catch (error) {
+            // Error handling
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log("Error:", errorCode, errorMessage);
+        }
     };
 
     return (

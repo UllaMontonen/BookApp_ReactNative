@@ -6,12 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 import { push, ref, onValue, remove } from 'firebase/database';
 import database from '../Firebase';
 
+
 // The ReadMore screen opens when the user presses the 'Read More' button on the SearchScreen after the search function has been completed.
 // On the ReadMore screen, the user can press the 'Show More' button to view the rest of the description, and 'Show Less' has the opposite function.
 // Additionally, the user can add the book to the Reading List by pressing the 'Add to readinglist' button, and the book will be saved to the Firebase database.
 
 // Navigation is imported to enable navigation between the ReadMore and Search screens (via SearchStackNavigation).
-export default function ReadMoreScreen({ navigation }) {
+export default function ReadMoreScreen() {
 
     const route = useRoute();
     // Selected book
@@ -20,6 +21,10 @@ export default function ReadMoreScreen({ navigation }) {
     const [showFullDescription, setShowFullDescription] = useState(false);
     // Used for saving books to Firebase database
     const [items, setItems] = useState([]);
+    // Navigation to Read more screen
+    const navigation = useNavigation();
+
+    const [books, setBooks] = useState([]);
 
 
     // Showing only the year for the PublishedYear call
@@ -48,22 +53,31 @@ export default function ReadMoreScreen({ navigation }) {
 
 
     useEffect(() => {
-        const itemsRef = ref(database, '/items');
-        onValue(itemsRef, snapshot => {
+        const booksRef = ref(database, '/books');
+        onValue(booksRef, snapshot => {
             const data = snapshot.val();
-            const products = data ? Object.keys(data).map(key => ({ key, ...data[key] })) : [];
-            setItems(products);
-            console.log(products.length, 'items read');
+            const booklist = data ? Object.keys(data).map(key => ({ key, ...data[key] })) : [];
+            setBooks(booklist);
+            console.log(booklist.length, 'booklist read');
         })
     }, []);
 
     // saving an item to reading list
     const saveItem = () => {
-        push(ref(database, '/items'),
-            { 'title': selectedBook.volumeInfo.title });
-        console.log(selectedBook.volumeInfo.title)
-    }
+        const title = selectedBook?.volumeInfo?.title;
+        console.log("Selected book: ", selectedBook );
+        console.log("Title: ", selectedBook.volumeInfo.title );
+        if (title) {
+        push(ref(database, '/books'), {title});
+            console.log("Book added to the reading list:", title);
+            console.log(selectedBook.volumeInfo.title)
+            alert("Book was added to the readingList");
+        } else {
+            console.error("Cannot add book to the reading list: title is undefined");
+          }
+        };
 
+    
     return (
         <View style={styles.container}>
             <ScrollView>

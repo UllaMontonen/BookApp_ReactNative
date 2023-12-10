@@ -2,8 +2,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// Icons
+// Others
 import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+// FIrebase Authentication
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app } from "./Firebase";
 // Import Screens
 import HomeScreen from './screens/HomeScreen';
 import ReadMoreScreen from './screens/ReadMoreScreen';
@@ -16,6 +21,9 @@ import ReadingListScreen from './screens/ReadingListScreen';
 // The ReadBook app utilizes tab navigation for the bottom navigation and
 // stack navigation to navigate between screens (Login and Register or Search and ReadMore). 
 // Firebase Authentication has also been implemented
+
+
+export default function App() {
 
 // Creating a Tab Navigator for the whole app
 const Tab = createBottomTabNavigator();
@@ -86,37 +94,54 @@ function TabNavigator() {
 
 // LogIn navigation
 function LoginNavigator() {
-
-  {/*const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    onAuthStateChanged(firebaseConfig, (user) => {
-      console.log('user', user);
-      setUser(user);
-    });
-  }, []); */}
-
   return (
     <LoginStack.Navigator initialRouteName='LoginStack'>
       <LoginStack.Screen name='ReadBook' component={RegisterNavigator} />
-
-      {/*{user ? (
-    <LoginStack.Screen name='Tab' component={TabNavigator} />
-  ) : (
-    <LoginStack.Screen name='Login' component={LoginScreen} />
-  )}*/}
-
     </LoginStack.Navigator>
   )
 }
 
+  const auth = getAuth(app);
+  const [initializing, setInitializing] = React.useState(true);
+  const [user, setUser] = React.useState(null);
 
-export default function App() {
+  // Handle user state changes
+  const onAuthStateChangedHandler = (user) => {
+    setUser(user);
+    console.log("set user: ", user);
+    if (initializing) {
+      setInitializing(false);
+      console.log("initialized done");
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, onAuthStateChangedHandler);
+    return unsubscribe;
+  }, []);
+
+  if (initializing) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+
   return (
     <NavigationContainer>
-      {/*  < LoginNavigator /> */}
-      < TabNavigator />
+     {/**  {user ? <TabNavigator /> : <LoginNavigator />}   */}
+     <TabNavigator />
     </NavigationContainer>
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

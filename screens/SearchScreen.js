@@ -6,7 +6,7 @@ import ReadMoreScreen from './ReadMoreScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 // SearchScreen manages the search function using the Google Books API.
-// After pressing the search button, a fetch is performed, and the results are displayed using flatlist.
+// After pressing the search button, a fetch is performed, and the results are displayed using ListItem.
 // Users can press the 'Read more' button to navigate to the ReadMoreScreen.
 
 
