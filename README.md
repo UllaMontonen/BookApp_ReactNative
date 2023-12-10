@@ -1,8 +1,6 @@
 # ReadBook Mobile Application
 
-PROJECT STILL IN PROGRESS
-
-Language: `ReactNative`
+Language: `ReactNative` and `React`
 
 The project was developed as the final assignment for the Mobile Programming course, which was undertaken as part of my Business Information Technology degree at Haaga-Helia University of Applied Sciences.
 
@@ -24,27 +22,26 @@ For more information, please refer to the code. Each file contains comments expl
 - Google Books API interface
 - Nesting navigators: Tab and Stack navigators
 - Firebase Authentication: sign in and registratin
-- ***** Firebase *****
+- Firebase Realtime Database
 - MUI library
-- IonIcons and expo-constants
+- IonIcons, expo-constants, ListItem
 - Splash picture
 
+## Google Books API
+The application utilizes the `Google Books API`. The ReadBook app employs a straightforward search feature. You can learn more about the API's functionality on Google's official page: [https://developers.google.com/books/docs/overview](https://developers.google.com/books/docs/overview)
 
 ## Database
-***** Add information about the used database. *****
-
+The used database is Firebase, utilized for both authentication and saving book information.
+Currently, the information saved in the Realtime Database includes the book's title, authors, and the URL where the image is located.
+Data can be accessed using calls like item.title, item.image, or item.authors.
+The information cannot currently be saved individually on a user-specific basis.
 
 ## Firebase authentication
 This application uses the Firebase authentication function for signing in and creating a new account. 
 You can read more about this, on [Firebase website](https://firebase.google.com/docs/auth?authuser=0)
 
-## Google Books API
-The application utilizes the `Google Books API`. The ReadBook app employs a straightforward search feature. You can learn more about the API's functionality on Google's official page: [https://developers.google.com/books/docs/overview](https://developers.google.com/books/docs/overview)
-
-## Authentication
-
-***** Add login information. ******
-***** Add Registration information. *****
+## Login and signing up
+The app features login and registration screens, and the functionality allows users to successfully create a new account, which is stored in the Firebase authentication page. While the login functionality appears to work, there are issues transitioning the user from the login screen to the home screen. This is why the App.js document currently displays the homepage instead of the login option.
 
 ## Testing
 Testing primarily involved end-to-end testing, and the key functionalities performed as expected. However, a few deficiencies were identified during testing that could be further improved:
@@ -52,6 +49,7 @@ Testing primarily involved end-to-end testing, and the key functionalities perfo
 * On iPhone devices, a notable issue was that the keyboard occasionally covered the page content disruptively.
 * The placeholder image did not consistently display correctly in all situations. While the functionality itself works as intended, sometimes, instead of the placeholder image, the image from the previous search appeared based on consecutive searches. This occurs only when the book does not have its own image, and consecutive searches have been performed.
 * Error handling is partly missing, and attention should be given to enhancing it throughout the application.
+* Book data cannot be saved on a user-specific basis.
 
 ## Instalation information
 First, ensure you have a programming environment installed. I recommend using [Visual Studio Code](https://code.visualstudio.com/). Next, clone the ReadBook repository to your desired location by navigating to that location in your terminal and using the command `git clone https://github.com/UllaMontonen/BookApp_ReactNative.git`.

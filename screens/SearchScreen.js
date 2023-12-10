@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Icon, Text, View, Keyboard, Alert, FlatList, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Keyboard, Alert, FlatList, Image, TouchableOpacity, TextInput } from 'react-native';
 import { ListItem } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import ReadMoreScreen from './ReadMoreScreen';

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Keyboard, Alert, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { Input, Button, Icon, ListItem } from '@rneui/themed';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { push, ref, onValue, remove } from 'firebase/database';
@@ -11,7 +10,6 @@ import database from '../Firebase';
 // On the ReadMore screen, the user can press the 'Show More' button to view the rest of the description, and 'Show Less' has the opposite function.
 // Additionally, the user can add the book to the Reading List by pressing the 'Add to readinglist' button, and the book will be saved to the Firebase database.
 
-// Navigation is imported to enable navigation between the ReadMore and Search screens (via SearchStackNavigation).
 export default function ReadMoreScreen() {
 
     const route = useRoute();
@@ -19,11 +17,9 @@ export default function ReadMoreScreen() {
     const { selectedBook } = route.params;
     // Show more function for the description part
     const [showFullDescription, setShowFullDescription] = useState(false);
-    // Used for saving books to Firebase database
-    const [items, setItems] = useState([]);
     // Navigation to Read more screen
     const navigation = useNavigation();
-
+    // Used for saving books to Firebase database
     const [books, setBooks] = useState([]);
 
 
@@ -65,19 +61,18 @@ export default function ReadMoreScreen() {
     // saving an item to reading list
     const saveItem = () => {
         const title = selectedBook?.volumeInfo?.title;
-        console.log("Selected book: ", selectedBook );
-        console.log("Title: ", selectedBook.volumeInfo.title );
+        const authors = selectedBook?.volumeInfo?.authors?.join(', ');
+        const image = selectedBook?.volumeInfo?.imageLinks?.thumbnail;
         if (title) {
-        push(ref(database, '/books'), {title});
+            push(ref(database, '/books'), { title, authors, image });
             console.log("Book added to the reading list:", title);
-            console.log(selectedBook.volumeInfo.title)
             alert("Book was added to the readingList");
         } else {
             console.error("Cannot add book to the reading list: title is undefined");
-          }
-        };
+        }
+    };
 
-    
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -120,17 +115,17 @@ export default function ReadMoreScreen() {
                                     {showFullDescription ? 'Show Less' : 'Show More'}</Text>
                             </TouchableOpacity>
                         )}
-                        <View style={styles.searchbutton}>
+                        <View style={styles.button}>
                             <TouchableOpacity
                                 onPress={saveItem}
                             >
-                                <Text style={styles.searchText}>Add to readinglist</Text>
+                                <Text style={styles.buttonText}>Add to readinglist</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.searchbutton}>
+                        <View style={styles.button}>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('SearchView')}>
-                                <Text style={styles.searchText}>Back to search</Text>
+                                <Text style={styles.buttonText}>Back to search</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -168,8 +163,8 @@ const styles = StyleSheet.create({
     description: {
         padding: 20,
     },
-    // back to search button
-    searchbutton: {
+    // back to search button and readinglist button
+    button: {
         paddingLeft: 30,
         paddingRight: 30,
         borderRadius: 25,
@@ -181,8 +176,8 @@ const styles = StyleSheet.create({
         marginLeft: 50,
         marginRight: 50,
     },
-    // back to search text
-    searchText: {
+    // text inside the buttons
+    buttonText: {
         color: "white",
         fontSize: 16,
     },

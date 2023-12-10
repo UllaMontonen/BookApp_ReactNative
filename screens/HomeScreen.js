@@ -10,7 +10,7 @@ import { getAuth, signOut } from "firebase/auth";
 export default function HomeScreen({ navigation }) {
 
 
-    // Sign out function NEED TP BE DONE !!! ****
+    // Sign out function 
     const auth = getAuth();
     signOut(auth).then(() => {
         // Sign-out successful.
@@ -20,6 +20,10 @@ export default function HomeScreen({ navigation }) {
         alert("Sign out failed: " + error.message)
     });
 
+    // SignOut function does not work
+    const signOutAlert = () => {
+        alert("Signing out");
+    }
 
     return (
 
@@ -51,7 +55,7 @@ export default function HomeScreen({ navigation }) {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={auth}>
+                onPress={signOutAlert}>
                 <Text style={styles.signout}>Sign out</Text>
             </TouchableOpacity>
 
@@ -67,11 +71,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: "white",
     },
+
     // header style
     header: {
         marginBottom: 50,
         marginTop: 30,
     },
+    
     // button style
     button: {
         marginBottom: 15,
