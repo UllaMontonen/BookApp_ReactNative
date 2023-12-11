@@ -26,7 +26,8 @@ import ReadingListScreen from './screens/ReadingListScreen';
 export default function App() {
 
   const auth = getAuth(app);
-  const [user, setUser] = useState('');
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
 
   // Creating a Tab Navigator for the whole app
   const Tab = createBottomTabNavigator();
@@ -108,9 +109,10 @@ export default function App() {
   }
 
 
+  // Currently not working as it should. app should be user. Now app used that the tabnavigator opens
   return (
     <NavigationContainer>
-      {user ? <TabNavigator /> : <LoginNavigator />} 
+      {app ? <TabNavigator /> : <LoginNavigator />} 
     </NavigationContainer>
   );
 }
