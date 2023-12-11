@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
@@ -11,10 +11,13 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
 
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
+    const [initializing, setInitializing] = useState(true);
+    const [user, setUser] = useState(null);
+
+    const auth = getAuth();
 
     // Navigation to RegisterScreen
     const handleRegister = () => {
@@ -22,33 +25,42 @@ export default function LoginScreen() {
     };
 
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, onAuthStateChangedHandler);
+        return () => unsubscribe();
+      }, []);
+
+ // Handle user state changes
+  const onAuthStateChangedHandler = (user) => {
+    
+    if (initializing) {
+      setInitializing(false);
+      console.log("initialized done");
+    }
+    setUser(user);
+    console.log("set user: ", user);
+  };
+
     // Login function
     const onPressLogin = async () => {
-        const auth = getAuth();
+        
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             // Signed in 
             const user = userCredential.user;
             alert("Login successful");
             console.log("Login successful");
+            console.log("set after signing in: ", user);
+           
+            if (user) {
+                const uid = user.uid;
+                setInitializing(false); 
+                console.log("uid", uid);
 
-            // Waiting for the authentication state to be updated
-            const updatedUser = await new Promise((resolve) => {
-                const unsubscribe = onAuthStateChanged(auth, (user) => {
-                    console.log("onAuthStateChanged:", user);
-                    unsubscribe();
-                    resolve(user);
-                });
-            });
-            // If updated, then navigating to HomeScreen. This does not work
-            if (updatedUser) {
-                //navigation.navigate('Home'); 
             } else {
                 console.error("User is still null after login");
             }
 
-            // Navigate to the TabNavigator after successful login
-            navigation.navigate('Register');
         } catch (error) {
             // Error handling
             const errorCode = error.code;
@@ -56,6 +68,8 @@ export default function LoginScreen() {
             console.log("Error:", errorCode, errorMessage);
         }
     };
+
+
 
     return (
 

@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Others
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 // FIrebase Authentication
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -25,9 +25,14 @@ import ReadingListScreen from './screens/ReadingListScreen';
 
 export default function App() {
 
+  const auth = getAuth(app);
+  const [user, setUser] = useState('');
+
   // Creating a Tab Navigator for the whole app
   const Tab = createBottomTabNavigator();
 
+  const Stack = createNativeStackNavigator();
+  
   // Creating a Stack Navigarot for moving between search and read more screens
   const SearchStack = createNativeStackNavigator();
 
@@ -48,7 +53,7 @@ export default function App() {
     )
   }
 
-  // Navigation between LogIn view and Search view
+  // Navigation between LogIn view and Register view
   function RegisterNavigator() {
     return (
       <RegisterStack.Navigator screenOptions={{ headerShown: false }}>
@@ -57,6 +62,7 @@ export default function App() {
       </RegisterStack.Navigator>
     )
   }
+
 
   // Botton tab navigation
   function TabNavigator() {
@@ -101,38 +107,10 @@ export default function App() {
     )
   }
 
-  const auth = getAuth(app);
-  const [initializing, setInitializing] = React.useState(true);
-  const [user, setUser] = React.useState(null);
-
-  // Handle user state changes
-  const onAuthStateChangedHandler = (user) => {
-    setUser(user);
-    console.log("set user: ", user);
-    if (initializing) {
-      setInitializing(false);
-      console.log("initialized done");
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, onAuthStateChangedHandler);
-    return unsubscribe;
-  }, []);
-
-  if (initializing) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
 
   return (
     <NavigationContainer>
-      {/**  {user ? <TabNavigator /> : <LoginNavigator />}   */}
-      <TabNavigator />
+      {user ? <TabNavigator /> : <LoginNavigator />} 
     </NavigationContainer>
   );
 }
