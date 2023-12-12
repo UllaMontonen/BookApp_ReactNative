@@ -55,6 +55,7 @@ Testing primarily involved end-to-end testing, and the key functionalities perfo
 * The placeholder image did not consistently display correctly in all situations. While the functionality itself works as intended, sometimes, instead of the placeholder image, the image from the previous search appeared based on consecutive searches. This occurs only when the book does not have its own image, and consecutive searches have been performed.
 * Error handling is partly missing, and attention should be given to enhancing it throughout the application.
 * Book data cannot be saved on a user-specific basis.
+* Currently Login and Signup functions are not in use. Nestling navigation causes some problems changing the screens after successfull login.
 
 ## Instalation information
 First, ensure you have a programming environment installed. I recommend using [Visual Studio Code](https://code.visualstudio.com/). Next, clone the ReadBook repository to your desired location by navigating to that location in your terminal and using the command `git clone https://github.com/UllaMontonen/BookApp_ReactNative.git`.
