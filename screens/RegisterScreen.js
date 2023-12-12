@@ -21,7 +21,7 @@ const RegisterScreen = () => {
         // Signed up 
         const user = userCredential.user;
         console.log(user);
-        alert("Sign up successfully")
+        alert(" Registered successfully ")
         navigation.navigate('LogIn');
       })
       // Error handling

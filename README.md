@@ -27,6 +27,9 @@ For more information, please refer to the code. Each file contains comments expl
 - IonIcons, expo-constants, ListItem
 - Splash picture
 
+## User Interface
+![User Interface](pictures/ReadBookUserInterfase.png "Pictures of the app")
+
 ## Google Books API
 The application utilizes the `Google Books API`. The ReadBook app employs a straightforward search feature. You can learn more about the API's functionality on Google's official page: [https://developers.google.com/books/docs/overview](https://developers.google.com/books/docs/overview)
 
@@ -39,6 +42,8 @@ The information cannot currently be saved individually on a user-specific basis.
 ## Firebase authentication
 This application uses the Firebase authentication function for signing in and creating a new account. 
 You can read more about this, on [Firebase website](https://firebase.google.com/docs/auth?authuser=0)
+
+Used Firebase version is 10.5.2.
 
 ## Login and signing up
 The app features login and registration screens, and the functionality allows users to successfully create a new account, which is stored in the Firebase authentication page. While the login functionality appears to work, there are issues transitioning the user from the login screen to the home screen. This is why the App.js document currently displays the homepage instead of the login option.

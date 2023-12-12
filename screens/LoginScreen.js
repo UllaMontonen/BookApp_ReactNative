@@ -23,11 +23,16 @@ export default function LoginScreen() {
     const handleRegister = () => {
         navigation.navigate('Register');
     };
+    
+    const handleHome = () => {
+        navigation.navigate('Tab');
+    };
 
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, onAuthStateChangedHandler);
-        return () => unsubscribe();
+     const unsubscribe = onAuthStateChanged(auth, onAuthStateChangedHandler);
+     handleHome;
+     return () => unsubscribe();
       }, []);
 
  // Handle user state changes
@@ -49,8 +54,7 @@ export default function LoginScreen() {
             // Signed in 
             const user = userCredential.user;
             alert("Login successful");
-            console.log("Login successful");
-            console.log("set after signing in: ", user);
+            console.log("set after signing in: ", user.email);
            
             if (user) {
                 const uid = user.uid;

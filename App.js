@@ -60,6 +60,7 @@ export default function App() {
       <RegisterStack.Navigator screenOptions={{ headerShown: false }}>
         <RegisterStack.Screen name="LogIn" component={LoginScreen} />
         <RegisterStack.Screen name="Register" component={RegisterScreen} />
+        <RegisterStack.Screen name="Tab" component={TabNavigator}/>
       </RegisterStack.Navigator>
     )
   }
