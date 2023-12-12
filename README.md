@@ -62,7 +62,7 @@ First, ensure you have a programming environment installed. I recommend using [V
 
 If you wish to test the app on your mobile device, install Expo Go from the App Store or Google Play. Alternatively, you can use an emulator. If you're using a Mac, you'll also need to install Watchman.
 
-Create a Firebase account, and set up a new project with a real-time database and authentication. Create a `configuration file` (app.config.js) and paste your Firebase config information there. Additionally, create a `.env` file and add the necessary information. Refer to the React Native documentation for guidance on creating .env files.
+Create a Firebase account, and set up a new project with a real-time database and authentication. Create a `.env` file where you can paste your Firebase config information. Refer to the React Native documentation for guidance on creating .env files.
 
 Please consult the documentation for [ReactNative](https://reactnative.dev) and [Expo](https://docs.expo.dev/get-started/installation/)
 
